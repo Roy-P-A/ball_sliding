@@ -1,3 +1,5 @@
+import 'package:flutter/services.dart';
+
 import '../mixins/snackbar_mixin.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +13,13 @@ class BallSlidingController extends GetxController with SnackbarMixin {
   double get expectedValue => _expectedValue.value;
 
   bool isSuccess = false;
+
+   @override
+  void onInit() {
+    super.onInit();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft,DeviceOrientation.landscapeRight]);
+   
+  }
 
   sliderValueChange(value){
      _sliderValue.value = value;
