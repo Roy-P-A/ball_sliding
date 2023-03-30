@@ -40,7 +40,6 @@ class BallSidingScreen extends StatelessWidget {
         });
   }
 
-  //-------------------------
 
   Widget _sideMenu() {
     final BallSlidingController controller = Get.find();

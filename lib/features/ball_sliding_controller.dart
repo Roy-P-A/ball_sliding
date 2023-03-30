@@ -9,6 +9,9 @@ class BallSlidingController extends GetxController with SnackbarMixin {
   final _sliderValue = 0.0.obs;
   double get sliderValue => _sliderValue.value;
 
+  final _maximumRange = 1000.0.obs;
+  double get maximumRange => _maximumRange.value;
+
   final _expectedValue = 900.0.obs;
   double get expectedValue => _expectedValue.value;
 

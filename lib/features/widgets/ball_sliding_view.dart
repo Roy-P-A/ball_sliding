@@ -51,14 +51,60 @@ class BallSlidingView extends StatelessWidget {
                           ),
                         ),
                         Slider(
+                          inactiveColor: Colors.white,
                           value: controller.sliderValue,
-                          divisions: 20,
+                          divisions: 2,
                           min: 0,
-                          max: 1000,
+                          max: controller.maximumRange,
                           onChanged: (value) {
                             controller.sliderValueChange(value);
                           },
                         ),
+                        Positioned(
+                          left: 24,
+                          top: 93 ,
+                          child: Column(
+                            children: [
+                              Container(
+                                 width:3,
+                                 height:13,
+                                 color: Colors.red,
+                              ),
+                              const Text("0")
+                            ],
+                          ),
+                        ),
+
+                        Positioned(
+                          left: constraints.maxWidth-26,
+                          top: 93,
+                          child: Column(
+                            children: [
+                              Container(
+                                 width:3,
+                                 height:13,
+                                 color: Colors.red,
+                              ),
+                              Text(controller.maximumRange.toInt().toString())
+                            ],
+                          ),
+                        ),
+
+                        Positioned(
+                          left: (constraints.maxWidth-2)/2,
+                          top: 93,
+                          child: Column(
+                            children: [
+                              Container(
+                                 width:3,
+                                 height:13,
+                                 color: Colors.red,
+                              ),
+                              Text((controller.maximumRange/2).toInt().toString())
+                            ],
+                          ),
+                          
+                        )
                       ],
                     ),
                   ),
