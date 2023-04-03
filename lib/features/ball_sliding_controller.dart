@@ -1,6 +1,7 @@
 import 'package:flutter/services.dart';
 
 import '../mixins/snackbar_mixin.dart';
+// ignore: depend_on_referenced_packages
 import 'package:get/get.dart';
 
 class BallSlidingController extends GetxController with SnackbarMixin {

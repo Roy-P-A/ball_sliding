@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../utils/utils.dart';
 import '../ball_sliding.dart';
 import 'package:get/get.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class BallSlidingView extends StatelessWidget {
   final BallSlidingController controller;
@@ -12,32 +13,33 @@ class BallSlidingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final largeTab = MediaQuery.of(context).size.width < 1100 &&
+        MediaQuery.of(context).size.width >= 800;
     return Obx(
       () => Expanded(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
-              "Put the soccer ball close to ${controller.expectedValue.toInt()}",
-              style: AppTheme.lightTheme.textTheme.headline3
-                  ?.copyWith(fontWeight: FontWeight.w500, color: Colors.blue),
+            Flexible(
+              child: MediaQuery(
+                data: MediaQueryData(textScaleFactor: largeTab? 3: 1),
+                child: Text(
+                  "Put the soccer ball close to ${controller.expectedValue.toInt()}",
+                  style:AppTheme.lightTheme.textTheme.headline2?.copyWith(
+                          fontWeight: FontWeight.w500, color: Colors.blue),
+                ),
+              ),
             ),
 
-            //--------------------------------
+            //-----------------
 
-            LayoutBuilder(builder: (context, constraints) {
-              return Obx(
-                () => SizedBox(
-                  height: 180,
-                  width: constraints.maxWidth,
-                  child: SliderTheme(
-                    data: SliderThemeData(
-                      thumbColor: Colors.transparent,
-                      activeTrackColor: Colors.red,
-                      inactiveTrackColor: Colors.grey[200],
-                      trackHeight: 2,
-                      overlayColor: Colors.transparent,
-                    ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: LayoutBuilder(builder: (context, constraints) {
+                return Obx(
+                  () => SizedBox(
+                    height: 180,
+                    width: constraints.maxWidth,
                     child: Stack(
                       children: [
                         Positioned(
@@ -50,67 +52,29 @@ class BallSlidingView extends StatelessWidget {
                             height: 50,
                           ),
                         ),
-                        Slider(
-                          inactiveColor: Colors.white,
-                          value: controller.sliderValue,
-                          divisions: 2,
-                          min: 0,
+                        SfSlider(
+                          min: 0.0,
                           max: controller.maximumRange,
-                          onChanged: (value) {
-                            controller.sliderValueChange(value);
+                          activeColor: Colors.red,
+                          inactiveColor: Colors.grey[200],
+                          value: controller.sliderValue,
+                          interval: controller.maximumRange / 2,
+                          stepSize: 50,
+                          thumbShape: const SfThumbShape(),
+                          showLabels: true,
+                          showTicks: true,
+                          showDividers: true,
+                          enableTooltip: false,
+                          onChanged: (dynamic newValue) {
+                            controller.sliderValueChange(newValue);
                           },
                         ),
-                        Positioned(
-                          left: 24,
-                          top: 93 ,
-                          child: Column(
-                            children: [
-                              Container(
-                                 width:3,
-                                 height:13,
-                                 color: Colors.red,
-                              ),
-                              const Text("0")
-                            ],
-                          ),
-                        ),
-
-                        Positioned(
-                          left: constraints.maxWidth-26,
-                          top: 93,
-                          child: Column(
-                            children: [
-                              Container(
-                                 width:3,
-                                 height:13,
-                                 color: Colors.red,
-                              ),
-                              Text(controller.maximumRange.toInt().toString())
-                            ],
-                          ),
-                        ),
-
-                        Positioned(
-                          left: (constraints.maxWidth-2)/2,
-                          top: 93,
-                          child: Column(
-                            children: [
-                              Container(
-                                 width:3,
-                                 height:13,
-                                 color: Colors.red,
-                              ),
-                              Text((controller.maximumRange/2).toInt().toString())
-                            ],
-                          ),
-                          
-                        )
                       ],
                     ),
                   ),
-                ),
-              );
-            }),
+                );
+              }),
+            ),
 
             //-----------------------
           ],
