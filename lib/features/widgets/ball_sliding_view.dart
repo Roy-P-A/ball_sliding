@@ -22,11 +22,11 @@ class BallSlidingView extends StatelessWidget {
           children: [
             Flexible(
               child: MediaQuery(
-                data: MediaQueryData(textScaleFactor: largeTab? 3: 1),
+                data: const MediaQueryData(textScaleFactor: 1),
                 child: Text(
                   "Put the soccer ball close to ${controller.expectedValue.toInt()}",
-                  style:AppTheme.lightTheme.textTheme.headline2?.copyWith(
-                          fontWeight: FontWeight.w500, color: Colors.blue),
+                  style: AppTheme.lightTheme.textTheme.headline2?.copyWith(
+                      fontWeight: FontWeight.w500, color: Colors.blue),
                 ),
               ),
             ),
@@ -36,20 +36,25 @@ class BallSlidingView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: LayoutBuilder(builder: (context, constraints) {
+                final largeTab =
+                    constraints.maxWidth < 1400 && constraints.maxWidth >= 800;
                 return Obx(
                   () => SizedBox(
-                    height: 180,
+                    height: GetPlatform.isDesktop || largeTab ? 230 : 180,
                     width: constraints.maxWidth,
                     child: Stack(
                       children: [
                         Positioned(
-                          left: (controller.sliderValue / 1000) *
-                              (constraints.maxWidth - 50),
-                          top: 20,
+                          left: GetPlatform.isDesktop || largeTab
+                              ? (controller.sliderValue / 1000) *
+                                  (constraints.maxWidth - 68)
+                              : (controller.sliderValue / 1000) *
+                                  (constraints.maxWidth - 50),
+                          top: GetPlatform.isDesktop || largeTab ? 10 : 20,
                           child: Image.asset(
                             'assets/images/ball.png',
-                            width: 50,
-                            height: 50,
+                            width: GetPlatform.isDesktop || largeTab ? 68 : 50,
+                            height: GetPlatform.isDesktop || largeTab ? 68 : 50,
                           ),
                         ),
                         SfSlider(
@@ -59,7 +64,7 @@ class BallSlidingView extends StatelessWidget {
                           inactiveColor: Colors.grey[200],
                           value: controller.sliderValue,
                           interval: controller.maximumRange / 2,
-                          stepSize: 50,
+                          stepSize: controller.maximumRange / 20,
                           thumbShape: const SfThumbShape(),
                           showLabels: true,
                           showTicks: true,
